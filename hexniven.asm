@@ -11,7 +11,8 @@ section .data
     msg_yes db "HexNiven Number: Yes", 0
     msg_no db "HexNiven Number: No", 0
     
-    perror db "Your input hex is invalid!", 0
+    perror db "Error: Your input hex is invalid!", 0
+    perror_cont db "Error: Invalid input. Please only enter Y or N!", 0
     uinput db 'Y'
 
 section .bss
@@ -41,7 +42,6 @@ main:
         
     mainloop:
         GET_CHAR cur_hex_digit
-        ;PRINT_CHAR cur_hex_digit
         movzx rdi, byte[cur_hex_digit]
 
         ; Big compare to check for valid hex, note order is important because ASCII stuff
@@ -62,6 +62,8 @@ main:
         jl not_hex
         cmp byte[cur_hex_digit], 'f'
         jle hex_a_f
+        cmp byte[cur_hex_digit], 'g'
+        jge not_hex
         
     process:
         ; Hex to decimal conversion
@@ -70,8 +72,8 @@ main:
         add [cur_dec_value], rdi
         
         ; Store hex for output
-        mov bl, [cur_hex_digit]
-        mov [rsi], bl
+        mov rbx, [cur_hex_digit]
+        mov [rsi], rbx
         inc rsi
         mov byte[rsi], ','
         inc rsi
@@ -104,8 +106,6 @@ main:
         GET_CHAR cur_hex_digit
         cmp byte[cur_hex_digit], 10
         jne skip_to_newline
-        PRINT_STRING "Done!"
-        NEWLINE
         jmp await_continue
     
     evaluate_hexniven: 
@@ -123,7 +123,7 @@ main:
         mov byte [rsi], 0
 
         PRINT_STRING msg_hex
-        PRINT_STRING [hexinput]
+        PRINT_STRING hexinput
         NEWLINE
         
         PRINT_STRING msg_sum
@@ -153,14 +153,19 @@ main:
         PRINT_STRING prompt
         get_char:
             GET_CHAR uinput
-            ;PRINT_CHAR uinput
         cmp byte[uinput], 10
-        je get_char
+        je err_uinput
         cmp byte[uinput], 'N'
         je END
         cmp byte[uinput], 'Y'
         je consume_enter
+        
         jmp get_char
+    
+    err_uinput: 
+        PRINT_STRING perror_cont
+        NEWLINE
+        jmp await_continue
         
     consume_enter: 
         GET_CHAR uinput
