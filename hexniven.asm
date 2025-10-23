@@ -16,7 +16,7 @@ section .data
     uinput db 'Y'
 
 section .bss
-    hexinput resb 64    ; 64 max hex nlng muna (one byte kasi kahit 4 bits isang hex, get_char is 1 byte)
+    hexinput resb 64    
     cur_hex_digit resb 1    ; Current hex digit
     cur_dec_value resq 1    ; Current decimal equivalent value
     hex_sum resq 1          ; Sum of hex digits
@@ -32,7 +32,7 @@ main:
         
         ;Reset
         xor rsi, rsi
-        lea rsi, hexinput ; put address ni hexinput kay rsi, free af kasi one byte one address, inc nlng mamaya
+        lea rsi, hexinput 
         xor rax, rax
         xor rbx, rbx
         mov [hex_sum], rax          ;set to 0
@@ -176,3 +176,4 @@ main:
     
     xor rax, rax
     ret
+
