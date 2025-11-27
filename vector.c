@@ -49,7 +49,7 @@ void benchmark() {
     y2[i] = get_random(10.0);
   }
 
-  printf("\n\nTEST CASE 2: Vectors of size %d (2^20) ran 1 time\n", n);
+  printf("\n\nTEST CASE 2: Vectors of size %d (2^20) ran 10 times\n", n);
   printf("X1: ");
   print_vector(10, x1);
   printf("\nX2: ");
@@ -61,18 +61,24 @@ void benchmark() {
 
   printf("\nC implementation:\n");
   clock_t start = clock();
-  vector_dist_c(1048576, x1, x2, y1, y2, z);
+  for (int i = 0; i < 10; i++) {
+    vector_dist_c(1048576, x1, x2, y1, y2, z);
+  }
   clock_t end = clock();
   double elapsed = (double)(end - start) / CLOCKS_PER_SEC;
   printf("Time taken: %f seconds\n", elapsed);
+  printf("Value of Z: ");
   print_vector(10, z);
 
   printf("\n\nAssembly implementation:\n");
   start = clock();
-  vector_dist(1048576, x1, x2, y1, y2, z);
+  for (int i = 0; i < 10; i++) {
+    vector_dist(1048576, x1, x2, y1, y2, z);
+  }
   end = clock();
   elapsed = (double)(end - start) / CLOCKS_PER_SEC;
   printf("Time taken: %f seconds\n", elapsed);
+  printf("Value of Z: ");
   print_vector(10, z);
 }
 
