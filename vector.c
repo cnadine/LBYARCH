@@ -3,6 +3,7 @@
 #include <time.h>
 
 #define N 4
+#define REPS 1000000
 
 extern void vector_dist(int n, const double* x1, const double* x2, const double* y1, const double* y2, double* z);
 
@@ -30,7 +31,9 @@ int main() {
 
   printf("C implementation:\n");
   clock_t start = clock();
-  vector_dist_c(N, x1, x2, y1, y2, z);
+  for (int i = 0; i < REPS; i++) {
+    vector_dist_c(N, x1, x2, y1, y2, z);
+  }
   clock_t end = clock();
   double elapsed = (double)(end - start) / CLOCKS_PER_SEC;
   printf("Time taken: %f seconds\n", elapsed);
@@ -39,7 +42,9 @@ int main() {
 
   printf("\n\nAssembly implementation:\n");
   start = clock();
-  vector_dist(N, x1, x2, y1, y2, z);
+  for (int i = 0; i < REPS; i++) {
+    vector_dist(N, x1, x2, y1, y2, z);
+  }
   end = clock();
   elapsed = (double)(end - start) / CLOCKS_PER_SEC;
   printf("Time taken: %f seconds\n", elapsed);
