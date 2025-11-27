@@ -13,6 +13,7 @@ vector_dist:
     mov r10, [rbp + 32]   ; Load y2 to r10
     mov r11, [rbp + 40]   ; Load z to r11
 
+    push rsi
     mov rsi, 0            ; Counter
 
 .compute:
@@ -36,5 +37,6 @@ vector_dist:
     jl .compute
 
 .end:
+    pop rsi
     pop rbp
     ret
