@@ -45,3 +45,6 @@ Observation:
 - Both implementations remain numerically identical, demonstrating correctness.
 
 - Larger data shows ASM maintains performance advantage due to low level optimizations.
+
+## Video
+<video src="https://github.com/cnadine/LBYARCH/releases/download/v1.0-video/video_source.code.compilation.execution.mp4" width="640" controls></video>
